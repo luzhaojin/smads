@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>江西晟明广告传媒有限公司 - 专业广告传媒解决方案</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <!-- GSAP 动画库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <!-- ScrollReveal -->
+    <script src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0066cc',
+                        secondary: '#00aaff',
+                        accent: '#ff6600',
+                        dark: '#1a1a2e',
+                        light: '#f5f5f5'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(to right, #0066cc, #00aaff);
+            }
+            .bg-gradient-primary {
+                background-image: linear-gradient(to right, #0066cc, #00aaff);
+            }
+            .bg-gradient-dark {
+                background-image: linear-gradient(to right, #1a1a2e, #16213e);
+            }
+            .transition-transform {
+                transition-property: transform;
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                transition-duration: 300ms;
+            }
+            .hover-scale:hover {
+                transform: scale(1.05);
+            }
+            .card-shadow {
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+            .nav-link {
+                position: relative;
+            }
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -2px;
+                left: 0;
+                background-color: #00aaff;
+                transition: width 0.3s ease;
+            }
+            .nav-link:hover::after,
+            .nav-link.active::after {
+                width: 100%;
+            }
+            .animate-on-scroll {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            }
+            .animate-on-scroll.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .animate-delay-100 {
+                transition-delay: 100ms;
+            }
+            .animate-delay-200 {
+                transition-delay: 200ms;
+            }
+            .animate-delay-300 {
+                transition-delay: 300ms;
+            }
+            .animate-delay-400 {
+                transition-delay: 400ms;
+            }
+            .animate-delay-500 {
+                transition-delay: 500ms;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-light">
+    <!-- 导航栏 -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white bg-opacity-95 shadow-md">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="flex items-center">
+                    <div class="text-primary text-3xl font-bold mr-2">
+                        <i class="fa fa-lightbulb-o"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-primary">晟明广告</h1>
+                        <p class="text-xs text-gray-500">光影塑造品牌</p>
+                    </div>
+                </a>
+                
+                <!-- 桌面端导航菜单 -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link active text-dark hover:text-primary font-medium">首页</a>
+                    <a href="#about" class="nav-link text-dark hover:text-primary font-medium">关于我们</a>
+                    <a href="#services" class="nav-link text-dark hover:text-primary font-medium">服务项目</a>
+                    <a href="#cases" class="nav-link text-dark hover:text-primary font-medium">案例展示</a>
+                    <a href="#contact" class="nav-link text-dark hover:text-primary font-medium">联系我们</a>
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-dark focus:outline-none">
+                        <i class="fa fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 移动端导航菜单 -->
+            <div id="mobile-menu" class="md:hidden hidden pt-4 pb-2">
+                <a href="#home" class="block py-2 text-dark hover:text-primary font-medium">首页</a>
+                <a href="#about" class="block py-2 text-dark hover:text-primary font-medium">关于我们</a>
+                <a href="#services" class="block py-2 text-dark hover:text-primary font-medium">服务项目</a>
+                <a href="#cases" class="block py-2 text-dark hover:text-primary font-medium">案例展示</a>
+                <a href="#contact" class="block py-2 text-dark hover:text-primary font-medium">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首页 Hero 区域 -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- 创意广告背景图 -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/361340777f424c239551d2ed44cb2b18.jpg~tplv-a9rns2rl98-24:720:720.image?rcl=20251218101647F62291BC9CF4746254E5&rk3s=8e244e95&rrcfp=8a172a1a&x-expires=1766629007&x-signature=oXIGx4BfSpTMK34XtjcFus2%2BVHA%3D" alt="创意广告背景" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+        </div>
+        
+        <!-- Hero 内容 -->
+        <div class="container mx-auto px-4 z-10 text-center">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-on-scroll">
+                创意无限 <span class="text-accent">精彩</span> 无限
+            </h1>
+            <p class="text-xl md:text-2xl text-white mb-10 max-w-3xl mx-auto animate-on-scroll animate-delay-200">
+                江西晟明广告传媒有限公司 - 专业的广告传媒解决方案提供商，为您的品牌赋能，创造无限可能
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 animate-on-scroll animate-delay-400">
+                <a href="#services" class="bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    了解我们的服务
+                </a>
+                <a href="#contact" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 hover:bg-white hover:text-primary">
+                    联系我们
+                </a>
+            </div>
+        </div>
+        
+        <!-- 向下滚动指示 -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#about" class="text-white">
+                <i class="fa fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">关于<span class="text-primary">我们</span></h2>
+                <div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="animate-on-scroll mb-12">
+                    <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/25114e548fb14a38bb151643fe38d35a.png~tplv-a9rns2rl98-24:720:720.png?rcl=2025121711511009F4E365D9BC8BC43623&rk3s=8e244e95&rrcfp=8a172a1a&x-expires=1766548271&x-signature=vGhf4am%2Bha5cJIyYe%2FAxqlivX4I%3D" alt="晟明传媒团队" class="rounded-lg shadow-xl w-full h-auto">
+                </div>
+                
+                <div class="animate-on-scroll animate-delay-200">
+                    <p class="text-gray-700 mb-8 text-lg leading-relaxed text-center">
+                        江西晟明广告传媒有限公司成立于2014年，专注于灯箱广告创意设计、制作与安装。公司以"光影塑造品牌"为核心理念，为商业综合体、酒店文旅、连锁品牌等客户提供一站式灯箱广告解决方案。我们拥有一支高素质的专业团队，从创意设计到制作安装，每个环节都由经验丰富的专业人员把控。我们注重品质与细节，采用先进的制作工艺和材料，确保每一个灯箱广告都具有出色的视觉效果和耐用性。
+                    </p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="flex flex-col items-center text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+                            <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-bold mb-4">
+                                8+
+                            </div>
+                            <h4 class="font-bold">年行业经验</h4>
+                            <p class="text-gray-600 text-sm">专注广告传媒领域</p>
+                        </div>
+                        
+                        <div class="flex flex-col items-center text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+                            <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-bold mb-4">
+                                100+
+                            </div>
+                            <h4 class="font-bold">合作客户</h4>
+                            <p class="text-gray-600 text-sm">覆盖多个行业</p>
+                        </div>
+                        
+                        <div class="flex flex-col items-center text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+                            <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-bold mb-4">
+                                200+
+                            </div>
+                            <h4 class="font-bold">成功案例</h4>
+                            <p class="text-gray-600 text-sm">优质项目执行</p>
+                        </div>
+                        
+                        <div class="flex flex-col items-center text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition-shadow">
+                            <div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-bold mb-4">
+                                20+
+                            </div>
+                            <h4 class="font-bold">专业团队</h4>
+                            <p class="text-gray-600 text-sm">创意与执行并重</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务项目 -->
+    <section id="services" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">服务<span class="text-primary">项目</span></h2>
+                <div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-3xl mx-auto">我们提供全方位的广告传媒解决方案，从品牌策划到广告执行，为您的品牌保驾护航</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 服务项目 1 - 商业综合体灯箱 -->
+                <div class="bg-white rounded-lg shadow-lg p-8 card-hover animate-on-scroll">
+                    <div class="w-16 h-16 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary text-2xl mb-6">
+                        <i class="fa fa-building"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">商业综合体灯箱</h3>
+                    <p class="text-gray-600 mb-6">
+                        为商场与城市综合体提供专业的灯箱广告解决方案，兼顾品牌展示与空间导视功能，提升商业空间的整体视觉体验。
+                    </p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>商场中庭大灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>电梯间广告灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>楼层导视灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>品牌专柜灯箱</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-primary font-medium flex items-center hover:underline">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务项目 2 - 酒店及文旅灯箱 -->
+                <div class="bg-white rounded-lg shadow-lg p-8 card-hover animate-on-scroll animate-delay-200">
+                    <div class="w-16 h-16 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary text-2xl mb-6">
+                        <i class="fa fa-hotel"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">酒店及文旅灯箱</h3>
+                    <p class="text-gray-600 mb-6">
+                        专注于酒店、景区、文旅项目的灯箱设计与制作，注重品质与氛围营造，提升整体形象与识别度。
+                    </p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>酒店大堂艺术灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>客房门牌灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>景区导览灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>文旅项目标识灯箱</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-primary font-medium flex items-center hover:underline">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务项目 3 - 连锁品牌门头灯箱 -->
+                <div class="bg-white rounded-lg shadow-lg p-8 card-hover animate-on-scroll animate-delay-400">
+                    <div class="w-16 h-16 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary text-2xl mb-6">
+                        <i class="fa fa-store"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">连锁品牌门头灯箱</h3>
+                    <p class="text-gray-600 mb-6">
+                        为连锁品牌提供统一规范的门头灯箱解决方案，强化品牌辨识与夜间展示效果，提升品牌形象的一致性。
+                    </p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>连锁门店招牌灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>亚克力吸塑灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>LED发光字灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>双面展示灯箱</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-primary font-medium flex items-center hover:underline">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务项目 4 - 城市户外灯箱 -->
+                <div class="bg-white rounded-lg shadow-lg p-8 card-hover animate-on-scroll">
+                    <div class="w-16 h-16 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary text-2xl mb-6">
+                        <i class="fa fa-tree"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">城市户外灯箱</h3>
+                    <p class="text-gray-600 mb-6">
+                        布局于城市人流密集区域的户外灯箱广告，实现高频、持续曝光，提升品牌知名度和影响力。
+                    </p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>公交站台灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>户外落地灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>广场大型灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>防水防晒灯箱</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-primary font-medium flex items-center hover:underline">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务项目 5 - 公共机构与园区灯箱 -->
+                <div class="bg-white rounded-lg shadow-lg p-8 card-hover animate-on-scroll animate-delay-200">
+                    <div class="w-16 h-16 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary text-2xl mb-6">
+                        <i class="fa fa-university"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">公共机构与园区灯箱</h3>
+                    <p class="text-gray-600 mb-6">
+                        侧重规范指引与信息传达，为校园、园区及公共空间提供专业的灯箱标识解决方案。
+                    </p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>校园文化灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>园区导视灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>公共信息灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>企业园区标识灯箱</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-primary font-medium flex items-center hover:underline">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- 服务项目 6 - 创意定制灯箱 -->
+                <div class="bg-white rounded-lg shadow-lg p-8 card-hover animate-on-scroll animate-delay-400">
+                    <div class="w-16 h-16 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary text-2xl mb-6">
+                        <i class="fa fa-lightbulb-o"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">创意定制灯箱</h3>
+                    <p class="text-gray-600 mb-6">
+                        通过个性化设计与多样形式，满足品牌活动与特色场景的展示需求，打造独特的视觉体验。
+                    </p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>异形创意灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>品牌活动灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>艺术装置灯箱</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-check text-primary mr-2"></i>
+                            <span>个性化定制灯箱</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="text-primary font-medium flex items-center hover:underline">
+                        了解更多 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+
+                
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 案例展示 -->
+    <section id="cases" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">案例<span class="text-primary">展示</span></h2>
+                <div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-3xl mx-auto">我们为众多客户提供了专业的灯箱广告服务，以下是部分成功案例</p>
+            </div>
+            
+            <!-- 案例筛选按钮 -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="case-filter-btn active bg-primary text-white px-6 py-2 rounded-full font-medium transition-all duration-300 hover:shadow-lg" data-filter="all">全部案例</button>
+                <button class="case-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-lg" data-filter="commercial">商业综合体</button>
+                <button class="case-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-lg" data-filter="hotel">酒店文旅</button>
+                <button class="case-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-lg" data-filter="chain">连锁品牌</button>
+                <button class="case-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-lg" data-filter="outdoor">城市户外</button>
+                <button class="case-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-lg" data-filter="public">公共机构</button>
+                <button class="case-filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-lg" data-filter="creative">创意定制</button>
+            </div>
+            
+            <!-- 案例网格 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 案例 1 - 商业综合体 -->
+                <div class="case-item commercial animate-on-scroll">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p3-doubao-search-sign.byteimg.com/labis/b2b3c6d0b6fec503095e5990a504bef5~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1781578211&x-signature=BONsdq04Xco5bKGCUmYC%2F%2FHoBak%3D" alt="商场中庭大灯箱" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-end">
+                            <div class="p-6 text-white">
+                                <h3 class="text-xl font-bold mb-2">商场中庭大灯箱</h3>
+                                <p class="text-sm">为某大型商业综合体设计制作的中庭大灯箱，提升空间视觉体验。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例 2 - 酒店文旅 -->
+                <div class="case-item hotel animate-on-scroll animate-delay-200">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p26-doubao-search-sign.byteimg.com/labis/ab1710ffe8754edc7ec2dda7a2e1ff93~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1781578211&x-signature=Q%2F2OjaFccLt0GWHsXai%2FxZJJei0%3D" alt="酒店大堂艺术灯箱" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-end">
+                            <div class="p-6 text-white">
+                                <h3 class="text-xl font-bold mb-2">酒店大堂艺术灯箱</h3>
+                                <p class="text-sm">为高端酒店设计的大堂艺术灯箱，营造优雅氛围。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例 3 - 连锁品牌 -->
+                <div class="case-item chain animate-on-scroll animate-delay-400">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p11-doubao-search-sign.byteimg.com/labis/ffe2cc025ec3f9e1b954f7b1433c18e6~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1781578211&x-signature=GEYP4xprLyCzoFyKmABgGyIyfd4%3D" alt="连锁品牌门头灯箱" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-end">
+                            <div class="p-6 text-white">
+                                <h3 class="text-xl font-bold mb-2">连锁品牌门头灯箱</h3>
+                                <p class="text-sm">为全国连锁品牌打造的统一门头灯箱，提升品牌识别度。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例 4 - 城市户外 -->
+                <div class="case-item outdoor animate-on-scroll">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p3-doubao-search-sign.byteimg.com/labis/6140474563b4e96b1c7ce49502e8ac91~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1781578230&x-signature=WKuDU88bKTzblC5wFfaZNmO19nc%3D" alt="城市户外灯箱" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-end">
+                            <div class="p-6 text-white">
+                                <h3 class="text-xl font-bold mb-2">城市户外灯箱</h3>
+                                <p class="text-sm">位于城市核心商圈的大型户外灯箱，实现品牌高频曝光。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例 5 - 公共机构 -->
+                <div class="case-item public animate-on-scroll animate-delay-200">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p26-doubao-search-sign.byteimg.com/labis/784f9fe2539cdea69a8e011d8d9162c6~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1781578230&x-signature=pTUP8bKN0ph4jOXU%2FrqYkty9oXI%3D" alt="校园文化灯箱" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-end">
+                            <div class="p-6 text-white">
+                                <h3 class="text-xl font-bold mb-2">校园文化灯箱</h3>
+                                <p class="text-sm">为知名高校设计的校园文化灯箱，兼具实用性与美观性。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 案例 6 - 创意定制 -->
+                <div class="case-item creative animate-on-scroll animate-delay-400">
+                    <div class="relative overflow-hidden rounded-lg shadow-lg group">
+                        <img src="https://p11-doubao-search-sign.byteimg.com/ecom-shop-material/jpeg_m_5a43f815bfbf60ba9d510bd27aef765e_sx_348111_www800-800~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1781578230&x-signature=VWlcdVtNzogg4%2Bqsatyo3%2FRQlyQ%3D" alt="创意异形灯箱" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-end">
+                            <div class="p-6 text-white">
+                                <h3 class="text-xl font-bold mb-2">创意异形灯箱</h3>
+                                <p class="text-sm">为品牌活动定制的创意异形灯箱，吸引消费者目光。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 查看更多按钮 -->
+            <div class="text-center mt-12">
+                <a href="#contact" class="inline-block bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                    咨询更多案例
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户评价 -->
+    <section class="py-20 bg-gradient-to-br from-primary to-blue-800 text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">客户<span class="text-accent">评价</span></h2>
+                <div class="w-24 h-1 bg-white mx-auto mb-6"></div>
+                <p class="text-gray-200 max-w-3xl mx-auto">听听我们的客户怎么说，他们的满意是对我们工作最大的肯定</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 评价 1 -->
+                <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-8 card-hover animate-on-scroll">
+                    <div class="flex items-center mb-6">
+                        <div class="text-accent text-2xl mr-2">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <span class="text-sm">5.0</span>
+                    </div>
+                    <p class="text-gray-200 mb-6 italic">
+                        "晟明广告为我们商场设计制作的灯箱广告效果非常好，不仅提升了商场的整体形象，也为品牌租户提供了优质的展示平台。他们的团队专业、高效，是值得信赖的合作伙伴。"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center text-primary font-bold text-xl mr-4">
+                            L
+                        </div>
+                        <div>
+                            <h4 class="font-bold">李总</h4>
+                            <p class="text-gray-300 text-sm">某大型商业综合体 运营总监</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 评价 2 -->
+                <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-8 card-hover animate-on-scroll animate-delay-200">
+                    <div class="flex items-center mb-6">
+                        <div class="text-accent text-2xl mr-2">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <span class="text-sm">5.0</span>
+                    </div>
+                    <p class="text-gray-200 mb-6 italic">
+                        "我们酒店的标识系统和灯箱广告都是由晟明广告负责设计制作的，他们的设计非常符合我们酒店的高端定位，制作工艺也很精湛，得到了很多客人的好评。"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center text-primary font-bold text-xl mr-4">
+                            W
+                        </div>
+                        <div>
+                            <h4 class="font-bold">王总</h4>
+                            <p class="text-gray-300 text-sm">某高端酒店 总经理</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 评价 3 -->
+                <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-8 card-hover animate-on-scroll animate-delay-400">
+                    <div class="flex items-center mb-6">
+                        <div class="text-accent text-2xl mr-2">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                        </div>
+                        <span class="text-sm">4.5</span>
+                    </div>
+                    <p class="text-gray-200 mb-6 italic">
+                        "作为一家连锁品牌，我们非常注重门店形象的统一性。晟明广告为我们设计的门头灯箱不仅美观大方，而且质量可靠，安装维护也很方便，是我们理想的合作伙伴。"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center text-primary font-bold text-xl mr-4">
+                            Z
+                        </div>
+                        <div>
+                            <h4 class="font-bold">张总</h4>
+                            <p class="text-gray-300 text-sm">某连锁品牌 品牌总监</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">客户<span class="text-accent">评价</span></h2>
+                <div class="w-24 h-1 bg-white mx-auto mb-6"></div>
+                <p class="text-blue-100 max-w-3xl mx-auto">听听我们的客户怎么说，他们的满意是对我们最大的肯定</p>
+            </div>
+            
+            <div class="testimonial-slider relative">
+                <div class="testimonial-container overflow-hidden">
+                    <div class="testimonial-wrapper flex transition-transform duration-500" id="testimonial-wrapper">
+                        <!-- 评价 1 -->
+                        <div class="testimonial-item w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
+                            <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-8 h-full">
+                                <div class="flex items-center mb-6">
+                                    <div class="text-yellow-400 flex">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                                <p class="text-blue-100 mb-6 italic">
+                                    "晟明传媒团队专业、高效，为我们提供了全方位的品牌策划服务。他们的创意和执行力让我们非常满意，是值得信赖的合作伙伴。"
+                                </p>
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-full bg-blue-300 flex items-center justify-center text-primary font-bold text-xl mr-4">
+                                        L
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold">李总</h4>
+                                        <p class="text-blue-200 text-sm">某科技公司 CEO</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 评价 2 -->
+                        <div class="testimonial-item w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
+                            <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-8 h-full">
+                                <div class="flex items-center mb-6">
+                                    <div class="text-yellow-400 flex">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                                <p class="text-blue-100 mb-6 italic">
+                                    "我们与晟明传媒合作多年，他们的广告设计和活动策划能力非常出色。每次合作都能给我们带来惊喜，帮助我们提升品牌影响力。"
+                                </p>
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-full bg-blue-300 flex items-center justify-center text-primary font-bold text-xl mr-4">
+                                        W
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold">王总</h4>
+                                        <p class="text-blue-200 text-sm">某连锁企业 市场总监</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 评价 3 -->
+                        <div class="testimonial-item w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
+                            <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-8 h-full">
+                                <div class="flex items-center mb-6">
+                                    <div class="text-yellow-400 flex">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                    </div>
+                                </div>
+                                <p class="text-blue-100 mb-6 italic">
+                                    "晟明传媒的数字营销服务帮助我们在短时间内提升了品牌知名度和销售额。他们的团队专业、负责，是值得推荐的合作伙伴。"
+                                </p>
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-full bg-blue-300 flex items-center justify-center text-primary font-bold text-xl mr-4">
+                                        Z
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold">张总</h4>
+                                        <p class="text-blue-200 text-sm">某电商平台 运营总监</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 评价 4 -->
+                        <div class="testimonial-item w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4">
+                            <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-8 h-full">
+                                <div class="flex items-center mb-6">
+                                    <div class="text-yellow-400 flex">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                </div>
+                                <p class="text-blue-100 mb-6 italic">
+                                    "晟明传媒为我们策划的产品发布会非常成功，现场效果超出预期。他们的团队从策划到执行都非常专业，给我们留下了深刻的印象。"
+                                </p>
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-full bg-blue-300 flex items-center justify-center text-primary font-bold text-xl mr-4">
+                                        C
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold">陈总</h4>
+                                        <p class="text-blue-200 text-sm">某制造企业 营销总监</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 控制按钮 -->
+                <button id="prev-testimonial" class="absolute top-1/2 left-0 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white hover:bg-opacity-30 transition-all duration-300 focus:outline-none">
+                    <i class="fa fa-chevron-left"></i>
+                </button>
+                <button id="next-testimonial" class="absolute top-1/2 right-0 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white hover:bg-opacity-30 transition-all duration-300 focus:outline-none">
+                    <i class="fa fa-chevron-right"></i>
+                </button>
+                
+                <!-- 指示器 -->
+                <div class="flex justify-center mt-8">
+                    <div class="testimonial-dots flex space-x-2">
+                        <button class="w-3 h-3 rounded-full bg-white bg-opacity-100 transition-all duration-300 focus:outline-none" data-index="0"></button>
+                        <button class="w-3 h-3 rounded-full bg-white bg-opacity-50 transition-all duration-300 focus:outline-none" data-index="1"></button>
+                        <button class="w-3 h-3 rounded-full bg-white bg-opacity-50 transition-all duration-300 focus:outline-none" data-index="2"></button>
+                        <button class="w-3 h-3 rounded-full bg-white bg-opacity-50 transition-all duration-300 focus:outline-none" data-index="3"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">联系<span class="text-primary">我们</span></h2>
+                <div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-3xl mx-auto">如果您有任何需求或疑问，请随时与我们联系，我们将竭诚为您服务</p>
+            </div>
+            
+            <div class="grid grid-cols-1 gap-8">
+                <!-- 联系信息 -->
+                <div class="animate-on-scroll">
+                    <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+                        <h3 class="text-2xl font-bold mb-6 text-primary">联系方式</h3>
+                        <div class="flex items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary text-2xl mr-4">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="text-left">
+                                <h4 class="font-bold text-lg mb-1">联系电话</h4>
+                                <p class="text-gray-600 text-lg">15170210778</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 联系表单 -->
+                <div class="animate-on-scroll animate-delay-200">
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <h3 class="text-2xl font-bold mb-6 text-primary text-center">发送消息</h3>
+                        
+                        <form id="contact-form" class="space-y-6 max-w-3xl mx-auto">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-gray-700 font-medium mb-2">姓名</label>
+                                    <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的姓名" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="phone" class="block text-gray-700 font-medium mb-2">电话</label>
+                                    <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的电话" required>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-gray-700 font-medium mb-2">电子邮箱</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的电子邮箱" required>
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block text-gray-700 font-medium mb-2">主题</label>
+                                <input type="text" id="subject" name="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入消息主题" required>
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-gray-700 font-medium mb-2">消息内容</label>
+                                <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入您的消息内容" required></textarea>
+                            </div>
+                            
+                            <div>
+                                <button type="submit" class="w-full bg-primary hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                                    发送消息
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 快速链接 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6">快速链接</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <ul class="space-y-3">
+                            <li><a href="#home" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                            <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">关于我们</a></li>
+                            <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">服务项目</a></li>
+                        </ul>
+                        <ul class="space-y-3">
+                            <li><a href="#cases" class="text-gray-400 hover:text-white transition-colors">案例展示</a></li>
+                            <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 服务项目 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6">服务项目</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <ul class="space-y-3">
+                            <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">商业综合体灯箱</a></li>
+                            <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">酒店及文旅灯箱</a></li>
+                            <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">连锁品牌门头灯箱</a></li>
+                        </ul>
+                        <ul class="space-y-3">
+                            <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">城市户外灯箱</a></li>
+                            <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">公共机构与园区灯箱</a></li>
+                            <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">创意定制灯箱</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">© 2025 江西晟明广告传媒有限公司 版权所有 | 赣ICP备</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300 z-50 hover:bg-blue-700">
+        <i class="fa fa-chevron-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2');
+                navbar.classList.remove('py-3');
+                backToTopBtn.classList.remove('opacity-0', 'invisible');
+                backToTopBtn.classList.add('opacity-100', 'visible');
+            } else {
+                navbar.classList.add('py-3');
+                navbar.classList.remove('py-2');
+                backToTopBtn.classList.add('opacity-0', 'invisible');
+                backToTopBtn.classList.remove('opacity-100', 'visible');
+            }
+            
+            // 导航链接高亮
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (window.scrollY >= sectionTop - 200) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // 滚动动画
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            animatedElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        });
+        
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 关闭移动端菜单
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+        
+        // 返回顶部按钮
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Three.js 背景动画
+        function initThreeJsBackground() {
+            const canvas = document.getElementById('hero-canvas');
+            
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            
+            const renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                alpha: true,
+                antialias: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            
+            // 创建粒子
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1500;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.005,
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            camera.position.z = 3;
+            
+            // 动画
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                particlesMesh.rotation.y += 0.0005;
+                particlesMesh.rotation.x += 0.0002;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // 响应式调整
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+            // 鼠标移动效果
+            document.addEventListener('mousemove', (event) => {
+                const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+                
+                gsap.to(particlesMesh.rotation, {
+                    x: mouseY * 0.1,
+                    y: mouseX * 0.1,
+                    duration: 2
+                });
+            });
+        }
+        
+        // 案例筛选
+        const filterBtns = document.querySelectorAll('.case-filter-btn');
+        const caseItems = document.querySelectorAll('.case-item');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 移除所有按钮的活动状态
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-primary', 'text-white');
+                    b.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                
+                // 添加当前按钮的活动状态
+                btn.classList.add('active', 'bg-primary', 'text-white');
+                btn.classList.remove('bg-gray-200', 'text-gray-700');
+                
+                const filter = btn.getAttribute('data-filter');
+                
+                // 筛选案例
+                caseItems.forEach(item => {
+                    if (filter === 'all' || item.classList.contains(filter)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // 客户评价轮播
+        const testimonialWrapper = document.getElementById('testimonial-wrapper');
+        const prevBtn = document.getElementById('prev-testimonial');
+        const nextBtn = document.getElementById('next-testimonial');
+        const dots = document.querySelectorAll('.testimonial-dots button');
+        let currentIndex = 0;
+        const itemWidth = 100; // 百分比
+        const totalItems = document.querySelectorAll('.testimonial-item').length;
+        const visibleItems = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+        const maxIndex = totalItems - visibleItems;
+        
+        function updateSlider() {
+            const translateValue = -currentIndex * (itemWidth / visibleItems);
+            testimonialWrapper.style.transform = `translateX(${translateValue}%)`;
+            
+            // 更新指示器
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.add('bg-opacity-100');
+                    dot.classList.remove('bg-opacity-50');
+                } else {
+                    dot.classList.remove('bg-opacity-100');
+                    dot.classList.add('bg-opacity-50');
+                }
+            });
+        }
+        
+        prevBtn.addEventListener('click', () => {
+            currentIndex = Math.max(0, currentIndex - 1);
+            updateSlider();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            currentIndex = Math.min(maxIndex, currentIndex + 1);
+            updateSlider();
+        });
+        
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentIndex = Math.min(maxIndex, index);
+                updateSlider();
+            });
+        });
+        
+        // 自动轮播
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % (maxIndex + 1);
+            updateSlider();
+        }, 5000);
+        
+        // 窗口大小变化时重新计算
+        window.addEventListener('resize', () => {
+            const newVisibleItems = window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
+            if (newVisibleItems !== visibleItems) {
+                visibleItems = newVisibleItems;
+                currentIndex = Math.min(currentIndex, totalItems - visibleItems);
+                updateSlider();
+            }
+        });
+        
+        // 联系表单提交
+        const contactForm = document.getElementById('contact-form');
+        
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // 获取表单数据
+            const formData = new FormData(contactForm);
+            const formDataObj = {};
+            formData.forEach((value, key) => {
+                formDataObj[key] = value;
+            });
+            
+            // 模拟表单提交
+            alert('感谢您的留言，我们会尽快与您联系！');
+            contactForm.reset();
+        });
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 初始化 Three.js 背景
+            initThreeJsBackground();
+            
+            // 初始化滚动动画
+            ScrollReveal().reveal('.animate-on-scroll', {
+                distance: '20px',
+                duration: 1000,
+                origin: 'bottom',
+                interval: 200
+            });
+            
+            // 模拟地图加载
+            setTimeout(() => {
+                const mapElement = document.getElementById('map');
+                mapElement.innerHTML = `
+                    <div class="w-full h-full bg-gray-100 flex items-center justify-center">
+                        <div class="text-center">
+                            <i class="fa fa-map-marker text-5xl text-primary mb-4"></i>
+                            <p class="text-gray-600">江西省南昌市红谷滩区万达星城华府景园5号商住楼店面106室</p>
+                        </div>
+                    </div>
+                `;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
